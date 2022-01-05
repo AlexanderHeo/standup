@@ -7,27 +7,48 @@ const App = () => {
   const [members, setMembers] = useState([]);
   const [lateAdditions, setLateAdditions] = useState([]);
   const [input, setInput] = useState('');
+  const [dayOf, setDayOf] = useState('');
+  const [qotd, setQotd] = useState('');
+  const [dayOfEntered, setDayOfEntered] = useState(false);
+  const [qotdEntered, setQotdEntered] = useState(false);
   const [display, setDisplay] = useState(false);
   const [added, setAdded] = useState(false);
   const [lateAdded, setLateAdded] = useState(false);
 
   const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
-  const handleAddButton = (e) => {
-    e.preventDefault();
-
-    if (display) {
-      const lateAddition = [...lateAdditions];
-      lateAddition.push(input);
-      setLateAdded(true);
-      setLateAdditions(lateAddition);
+    const target = e.target;
+    const name = target.name;
+    const value = target.value;
+    if (name === 'input') {
+      setInput(value);
+    } else if (name === 'dayOf') {
+      setDayOf(value);
+    } else if (name === 'qotd') {
+      setQotd(value);
     }
-    const membersCopy = [...members];
-    membersCopy.push(input);
-    setAdded(true);
-    setMembers(membersCopy);
-    setInput('');
+  };
+  const handleButton = (e) => {
+    e.preventDefault();
+    const name = e.target.name;
+    console.log(e.target.name);
+
+    if (name === 'add') {
+      if (display) {
+        const lateAddition = [...lateAdditions];
+        lateAddition.push(input);
+        setLateAdded(true);
+        setLateAdditions(lateAddition);
+      }
+      const membersCopy = [...members];
+      membersCopy.push(input);
+      setAdded(true);
+      setMembers(membersCopy);
+      setInput('');
+    } else if (name === 'dayOf') {
+      setDayOfEntered(true);
+    } else if (name === 'qotd') {
+      setQotdEntered(true);
+    }
   };
 
   const disp = () => {
@@ -59,23 +80,62 @@ const App = () => {
         </h2>
       </section>
       <section className='dayof-qotd'>
-        <div className='day'>National ----- Day</div>
-        <div className='qotd'>QotD: Margins and Padding - px or rems?</div>
-      </section>
-      <main className='container'>
-        <section className='inputBox'>
-          <form onSubmit={(e) => handleAddButton(e1)}>
-            <div className='buttonContainer'>
+        <div className='day-qotd-container'>
+          {dayOfEntered ? (
+            <div className='dayof-display'>National {dayOf} Day</div>
+          ) : (
+            <>
               <input
-                className='input'
+                className='dayOf'
+                name='dayOf'
+                type='text'
+                placeholder='National Day of...'
                 onChange={(e) => handleInputChange(e)}
-                value={input}
               />
               <button
                 type='submit'
-                className='addButton'
-                onClick={(e) => handleAddButton(e)}
+                onClick={(e) => handleButton(e)}
+                name='dayOf'
               >
+                Enter
+              </button>
+            </>
+          )}
+        </div>
+        <div className='day-qotd-container'>
+          {qotdEntered ? (
+            <div className='dayof-display'>{qotd}</div>
+          ) : (
+            <>
+              <input
+                className='qotd'
+                name='qotd'
+                type='text'
+                placeholder='Question of the Day'
+                onChange={(e) => handleInputChange(e)}
+              />
+              <button
+                type='submit'
+                onClick={(e) => handleButton(e)}
+                name='qotd'
+              >
+                Enter
+              </button>
+            </>
+          )}
+        </div>
+      </section>
+      <main className='container'>
+        <section className='inputBox'>
+          <form onSubmit={(e) => handleButton(e)}>
+            <div className='buttonContainer'>
+              <input
+                name='input'
+                onChange={(e) => handleInputChange(e)}
+                placeholder="Developer's Name"
+                value={input}
+              />
+              <button type='submit' onClick={(e) => handleButton(e)} name='add'>
                 Add
               </button>
             </div>
