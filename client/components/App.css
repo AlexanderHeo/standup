@@ -29,6 +29,11 @@ h2 {
 }
 .day-qotd-container {
   display: flex;
+  justify-content: center;
+  width: 600px;
+}
+.day-qotd-container input {
+  margin-right: 1rem;
 }
 .dayof-display {
   display: flex;
