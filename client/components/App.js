@@ -30,7 +30,6 @@ const App = () => {
   const handleButton = (e) => {
     e.preventDefault();
     const name = e.target.name;
-    console.log(e.target.name);
 
     if (name === 'add') {
       if (display) {
@@ -82,7 +81,11 @@ const App = () => {
       <section className='dayof-qotd'>
         <div className='day-qotd-container'>
           {dayOfEntered ? (
-            <div className='dayof-display'>National {dayOf} Day</div>
+            dayOf ? (
+              <div className='dayof-display'>National {dayOf} Day</div>
+            ) : (
+              <div className='dayof-display' />
+            )
           ) : (
             <>
               <input
