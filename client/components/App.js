@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import getDate from './getDate';
 
@@ -7,13 +8,39 @@ const App = () => {
   const [members, setMembers] = useState([]);
   const [lateAdditions, setLateAdditions] = useState([]);
   const [input, setInput] = useState('');
-  const [dayOf, setDayOf] = useState('');
+  const [dayOf, setDayOf] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [qotd, setQotd] = useState('');
-  const [dayOfEntered, setDayOfEntered] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [qotdEntered, setQotdEntered] = useState(false);
   const [display, setDisplay] = useState(false);
   const [added, setAdded] = useState(false);
   const [lateAdded, setLateAdded] = useState(false);
+
+  useEffect(() => {
+    axios('https://national-api-day.herokuapp.com/api/today')
+      .then((response) => {
+        setDayOf(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => changeIndex(), 5000);
+    return () => clearInterval(interval);
+  }, [dayOf]);
+
+  const changeIndex = () => {
+    const lastIndex = dayOf.holidays.length - 1;
+    setCurrentIndex((currentIndex) => {
+      return currentIndex === lastIndex ? 0 : currentIndex + 1;
+    });
+  };
 
   const handleInputChange = (e) => {
     const target = e.target;
@@ -80,29 +107,10 @@ const App = () => {
       </section>
       <section className='dayof-qotd'>
         <div className='day-qotd-container'>
-          {dayOfEntered ? (
-            dayOf ? (
-              <div className='dayof-display'>National {dayOf} Day</div>
-            ) : (
-              <div className='dayof-display' />
-            )
+          {!loading ? (
+            <div className='dayof-display'>{dayOf.holidays[currentIndex]}</div>
           ) : (
-            <>
-              <input
-                className='dayOf'
-                name='dayOf'
-                type='text'
-                placeholder='National Day of...'
-                onChange={(e) => handleInputChange(e)}
-              />
-              <button
-                type='submit'
-                onClick={(e) => handleButton(e)}
-                name='dayOf'
-              >
-                Enter
-              </button>
-            </>
+            <div className='dayof-display'>Loading...</div>
           )}
         </div>
         <div className='day-qotd-container'>
