@@ -4,7 +4,14 @@
   margin: 0;
   padding: 0;
 }
+html,
+body,
+#root {
+  height: 100%;
+}
 .wrapper {
+  position: relative;
+  height: calc(100% - 2rem);
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
@@ -96,4 +103,73 @@ ol li {
 }
 li {
   line-height: 1.4;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem 0;
+  border-top: 1px solid dodgerblue;
+}
+.copyright {
+  margin-left: 10rem;
+}
+.about {
+  margin-right: 10rem;
+  padding: 0.5rem 1rem;
+  background: hsl(0, 100%, 100%);
+  font-size: 0.8rem;
+  border: none;
+}
+.about:hover {
+  cursor: pointer;
+}
+.about:hover + .about-section {
+  display: block;
+}
+.about-section {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: hsl(210, 100%, 86%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.about-section.hide {
+  display: none;
+}
+.about-container {
+  position: relative;
+  width: 30%;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  padding: 2rem 4rem;
+  border: 2px solid dodgerblue;
+  border-radius: 20px;
+}
+.close-about {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.6rem 1rem;
+  padding: 0 0.4rem;
+  background: hsl(0, 100%, 100%);
+  cursor: pointer;
+}
+a,
+.about {
+  color: hsl(210, 100%, 26%);
+  text-decoration: none;
+}
+a:hover,
+.about:hover {
+  text-decoration: underline;
 }

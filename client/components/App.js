@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import getDate from './getDate';
@@ -8,27 +7,35 @@ const App = () => {
   const [members, setMembers] = useState([]);
   const [lateAdditions, setLateAdditions] = useState([]);
   const [input, setInput] = useState('');
-  const [dayOf, setDayOf] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [dayOf, setDayOf] = useState({
+    holidays: [
+      'National Day of Technology',
+      'Day of Remorse',
+      'Walk a Dog Day',
+      'Pet a Cat Day',
+    ],
+  });
+  const [loading, setLoading] = useState(false);
   const [qotd, setQotd] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [qotdEntered, setQotdEntered] = useState(false);
   const [display, setDisplay] = useState(false);
   const [added, setAdded] = useState(false);
   const [lateAdded, setLateAdded] = useState(false);
+  const [aboutClass, setAboutClass] = useState('about-section hide');
 
-  useEffect(() => {
-    axios('https://national-api-day.herokuapp.com/api/today')
-      .then((response) => {
-        setDayOf(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios('https://national-api-day.herokuapp.com/api/today')
+  //     .then((response) => {
+  //       setDayOf(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   useEffect(() => {
     const interval = setInterval(() => changeIndex(), 5000);
@@ -74,6 +81,15 @@ const App = () => {
       setDayOfEntered(true);
     } else if (name === 'qotd') {
       setQotdEntered(true);
+    }
+  };
+
+  const handleAbout = (e) => {
+    const name = e.target.name;
+    if (name === 'open') {
+      setAboutClass('about-section');
+    } else if (name === 'close') {
+      setAboutClass('about-section hide');
     }
   };
 
@@ -184,6 +200,50 @@ const App = () => {
           </div>
         </section>
       </main>
+      <div className={aboutClass}>
+        <div className='about-container'>
+          <button
+            className='close-about'
+            name='close'
+            onClick={(e) => handleAbout(e)}
+          >
+            X
+          </button>
+          This app was created by{' '}
+          <span>
+            <a href='https://alexheo.com' target='_blank'>
+              Alex Heo
+            </a>
+          </span>
+          , an alumni of the coding bootcamp{' '}
+          <span>
+            <a href='https://learningfuze.com' target='_blank'>
+              LearningFuze
+            </a>
+          </span>
+          , located in Irvine, CA, for the daily morning standup. If you would
+          like to add to this app, please take{' '}
+          <span>
+            <a href='https://github.com/alexanderheo/standup' target='_blank'>
+              a fork
+            </a>
+          </span>{' '}
+          and make a pull request!
+        </div>
+      </div>
+      <footer>
+        <div className='copyright'>
+          &copy; 2022{' '}
+          <span>
+            <a href='https://alexheo.com' target='_blank'>
+              alexheo.com
+            </a>
+          </span>
+        </div>
+        <button className='about' name='open' onClick={(e) => handleAbout(e)}>
+          About
+        </button>
+      </footer>
     </div>
   );
 };
