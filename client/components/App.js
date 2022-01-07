@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import getDate from './getDate';
@@ -8,7 +9,7 @@ const App = () => {
   const [lateAdditions, setLateAdditions] = useState([]);
   const [input, setInput] = useState('');
   const [dayOf, setDayOf] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [qotd, setQotd] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [qotdEntered, setQotdEntered] = useState(false);
