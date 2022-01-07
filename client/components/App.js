@@ -7,14 +7,7 @@ const App = () => {
   const [members, setMembers] = useState([]);
   const [lateAdditions, setLateAdditions] = useState([]);
   const [input, setInput] = useState('');
-  const [dayOf, setDayOf] = useState({
-    holidays: [
-      'National Day of Technology',
-      'Day of Remorse',
-      'Walk a Dog Day',
-      'Pet a Cat Day',
-    ],
-  });
+  const [dayOf, setDayOf] = useState({});
   const [loading, setLoading] = useState(false);
   const [qotd, setQotd] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,18 +17,18 @@ const App = () => {
   const [lateAdded, setLateAdded] = useState(false);
   const [aboutClass, setAboutClass] = useState('about-section hide');
 
-  // useEffect(() => {
-  //   axios('https://national-api-day.herokuapp.com/api/today')
-  //     .then((response) => {
-  //       setDayOf(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios('https://national-api-day.herokuapp.com/api/today')
+      .then((response) => {
+        setDayOf(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => changeIndex(), 5000);
