@@ -72,6 +72,9 @@ h2 {
   display: flex;
   justify-content: space-evenly;
 }
+.buttonContainer button:last-child {
+  margin-left: 1rem;
+}
 input {
   width: 70%;
   border: 2px solid dodgerblue;
@@ -103,6 +106,9 @@ ol li {
 }
 li {
   line-height: 1.4;
+}
+.namediv.clicked {
+  text-decoration: line-through;
 }
 
 footer {

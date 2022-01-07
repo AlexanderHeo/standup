@@ -112,6 +112,20 @@ const App = () => {
     setDisplay(true);
   };
 
+  const clear = () => {
+    setMembers([]);
+    setLateAdditions([]);
+    setLateAdded(false);
+    setRandomized([]);
+    setAdded(false);
+    setDisplay(false);
+  };
+
+  const handleNameClick = (e) => {
+    console.log(e.currentTarget.className);
+    e.currentTarget.classList.add('clicked');
+  };
+
   const todayIs = getDate();
   return (
     <div className='wrapper'>
@@ -178,15 +192,18 @@ const App = () => {
 
         <section className='outputBox'>
           <div className='buttonContainer'>
-            <button className='randomButton' onClick={disp}>
-              Randomize
-            </button>
+            <button onClick={disp}>Randomize</button>
+            <button onClick={clear}>Clear</button>
           </div>
           <div className='randomList'>
             {display && (
-              <ol className='orderedList'>
+              <ol>
                 {randomized.map((member, index) => (
-                  <div key={index}>
+                  <div
+                    key={index}
+                    className='namediv'
+                    onClick={(e) => handleNameClick(e)}
+                  >
                     <li className='name'>{member}</li>
                   </div>
                 ))}
