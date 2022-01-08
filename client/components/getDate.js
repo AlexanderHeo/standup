@@ -70,8 +70,8 @@ const getDate = () => {
       month = 'Unknown';
   }
   return {
-    month,
     day,
+    month,
     date,
     year,
   };

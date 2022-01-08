@@ -72,8 +72,8 @@ h2 {
   display: flex;
   justify-content: space-evenly;
 }
-.buttonContainer button:last-child {
-  margin-left: 1rem;
+.buttonContainer button:nth-child(2) {
+  margin: 0 1rem;
 }
 input {
   width: 70%;
@@ -131,9 +131,6 @@ footer {
   font-size: 0.8rem;
   border: none;
 }
-.about:hover {
-  cursor: pointer;
-}
 .about:hover + .about-section {
   display: block;
 }
@@ -178,4 +175,10 @@ a,
 a:hover,
 .about:hover {
   text-decoration: underline;
+}
+
+.about,
+button,
+.namediv {
+  cursor: pointer;
 }

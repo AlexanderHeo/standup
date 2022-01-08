@@ -1,4 +1,5 @@
 import axios from 'axios';
+import html2canvas from 'html2canvas';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import getDate from './getDate';
@@ -120,13 +121,44 @@ const App = () => {
     e.currentTarget.classList.add('clicked');
   };
 
+  const capture = () => {
+    html2canvas(document.querySelector('#attendees-list')).then((canvas) => {
+      const attendees = canvas.toDataURL('image/png', 1.0);
+      const date = getDate();
+      const fileName = `${date.month} ${date.date} standup.png`;
+      saveas(attendees, fileName);
+    });
+  };
+
+  const saveas = (blob, fileName) => {
+    var elem = window.document.createElement('a');
+    elem.href = blob;
+    elem.download = fileName;
+    elem.style = 'display:none;';
+    (document.body || document.documentElement).appendChild(elem);
+    if (typeof elem.click === 'function') {
+      elem.click();
+    } else {
+      elem.target = '_blank';
+      elem.dispatchEvent(
+        new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+    }
+    URL.revokeObjectURL(elem.href);
+    elem.remove();
+  };
+
   const todayIs = getDate();
   return (
     <div className='wrapper'>
       <section className='date-section'>
         <h1>Morning Stand UP</h1>
         <h2>
-          {todayIs.month} {todayIs.day} {todayIs.date}, {todayIs.year}
+          {todayIs.day} {todayIs.month} {todayIs.date}, {todayIs.year}
         </h2>
       </section>
       <section className='dayof-qotd'>
@@ -176,7 +208,7 @@ const App = () => {
             </div>
           </form>
           {added && (
-            <ul>
+            <ul id='attendees-list'>
               {members.map((member, index) => (
                 <li key={index}>{member}</li>
               ))}
@@ -188,6 +220,7 @@ const App = () => {
           <div className='buttonContainer'>
             <button onClick={disp}>Randomize</button>
             <button onClick={clear}>Clear</button>
+            <button onClick={capture}>Save</button>
           </div>
           <div className='randomList'>
             {display && (
