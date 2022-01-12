@@ -235,9 +235,13 @@ const App = () => {
                   </div>
                 ))}
                 {lateAdditions.map((member, index) => (
-                  <li key={index} onClick={(e) => handleMemberClick(e)}>
-                    {member}
-                  </li>
+                  <div
+                    key={index}
+                    className='namediv'
+                    onClick={(e) => handleNameClick(e)}
+                  >
+                    <li className='name'>{member}</li>
+                  </div>
                 ))}
               </ol>
             )}
