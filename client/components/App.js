@@ -33,7 +33,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => changeIndex(), 5000);
+    const interval = setInterval(() => changeIndex(), 7500);
     return () => clearInterval(interval);
   }, [dayOf]);
 
@@ -180,6 +180,7 @@ const App = () => {
                 type='text'
                 placeholder='Question of the Day'
                 onChange={(e) => handleInputChange(e)}
+                onKeyPress={(e) => e.key === 'Enter' && handleButton(e)}
               />
               <button
                 type='submit'
