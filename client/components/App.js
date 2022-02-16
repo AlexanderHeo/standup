@@ -56,11 +56,13 @@ const App = () => {
       setQotd(value);
     }
   };
+
   const handleButton = (e) => {
     e.preventDefault();
     const name = e.target.name;
+    console.log(input)
 
-    if (name === 'add') {
+    if (name === 'add' && input) {
       if (display) {
         const lateAddition = [...lateAdditions];
         lateAddition.push(input);
@@ -74,8 +76,10 @@ const App = () => {
       setInput('');
     } else if (name === 'dayOf') {
       setDayOfEntered(true);
-    } else if (name === 'qotd') {
+    } else if (name === 'qotd' && qotd) {
       setQotdEntered(true);
+    } else {
+      setQotd('');
     }
   };
 
@@ -118,7 +122,7 @@ const App = () => {
 
   const handleNameClick = (e) => {
     console.log(e.currentTarget.className);
-    e.currentTarget.classList.add('clicked');
+    e.currentTarget.classList.toggle('clicked');
   };
 
   const capture = () => {
@@ -171,13 +175,14 @@ const App = () => {
         </div>
         <div className='day-qotd-container'>
           {qotdEntered ? (
-            <div className='dayof-display'>{qotd}</div>
+            <div className='dayof-display' onDoubleClick={() => setQotdEntered(false)}>{qotd}</div>
           ) : (
             <>
               <input
                 className='qotd'
                 name='qotd'
                 type='text'
+                value={qotd}
                 placeholder='Question of the Day'
                 onChange={(e) => handleInputChange(e)}
                 onKeyPress={(e) => e.key === 'Enter' && handleButton(e)}
@@ -188,6 +193,10 @@ const App = () => {
                 name='qotd'
               >
                 Enter
+              </button>
+              <button name='clear'
+                onClick={(e) => handleButton(e)}>
+                Clear
               </button>
             </>
           )}
