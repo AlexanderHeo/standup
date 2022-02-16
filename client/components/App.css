@@ -177,8 +177,13 @@ a:hover,
   text-decoration: underline;
 }
 
+.qotd-display,
 .about,
 button,
 .namediv {
   cursor: pointer;
+}
+
+button:active {
+  transform: translateY(0.25rem);
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import getDate from './getDate';
 
@@ -19,6 +19,7 @@ const App = () => {
   const [lateAdded, setLateAdded] = useState(false);
   const [aboutClass, setAboutClass] = useState('about-section hide');
 
+  const qotdRef = useRef(null);
   useEffect(() => {
     axios('https://national-api-day.herokuapp.com/api/today')
       .then((response) => {
@@ -60,7 +61,6 @@ const App = () => {
   const handleButton = (e) => {
     e.preventDefault();
     const name = e.target.name;
-    console.log(input)
 
     if (name === 'add' && input) {
       if (display) {
@@ -174,32 +174,36 @@ const App = () => {
           )}
         </div>
         <div className='day-qotd-container'>
-          {qotdEntered ? (
-            <div className='dayof-display' onDoubleClick={() => setQotdEntered(false)}>{qotd}</div>
-          ) : (
-            <>
-              <input
-                className='qotd'
-                name='qotd'
-                type='text'
-                value={qotd}
-                placeholder='Question of the Day'
-                onChange={(e) => handleInputChange(e)}
-                onKeyPress={(e) => e.key === 'Enter' && handleButton(e)}
-              />
-              <button
-                type='submit'
-                onClick={(e) => handleButton(e)}
-                name='qotd'
-              >
-                Enter
-              </button>
-              <button name='clear'
-                onClick={(e) => handleButton(e)}>
-                Clear
-              </button>
-            </>
-          )}
+          {qotdEntered
+            ?  <div
+                  className='dayof-display qotd-display'
+                  onDoubleClick={(e) => {
+                    setQotdEntered(false);
+                  }}>{qotd}</div>
+
+            : (
+                <>
+                  <input
+                    className='qotd'
+                    name='qotd'
+                    type='text'
+                    value={qotd}
+                    placeholder='Question of the Day'
+                    onChange={(e) => handleInputChange(e)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleButton(e)}
+                  />
+                  <button
+                    type='submit'
+                    onClick={(e) => handleButton(e)}
+                    name='qotd'>
+                    Enter
+                  </button>
+                  <button name='clear'
+                    onClick={(e) => handleButton(e)}>
+                    Clear
+                  </button>
+                </>
+              )}
         </div>
       </section>
       <main className='container'>
