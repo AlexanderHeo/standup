@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import questions from '../../questions';
 
-const QuestionGenerator = ({ setRandomQotd }) => {
+const QuestionGenerator = ({ setRandomQotd, handleButton }) => {
   const [qotd, setQotd] = useState('');
 
   const getRandomQotd = () => {
@@ -17,9 +17,16 @@ const QuestionGenerator = ({ setRandomQotd }) => {
     <>
       <div className='generator-container'>
         <div className='question-text'>{qotd}</div>
-        <button className='btn-next' onClick={getRandomQotd}>Next Question</button>
       </div>
-      <button onClick={() => setRandomQotd(false)}>Add custom QotD</button>
+      <div className='btn-container'>
+        <button className='btn-qotd' onClick={getRandomQotd}>Next Question</button>
+        <button className='btn-qotd' onClick={e => {
+            handleButton(e);
+            setRandomQotd(false);
+          }}>
+          Add custom QotD
+        </button>
+      </div>
     </>
   );
 };
