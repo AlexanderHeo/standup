@@ -19,6 +19,7 @@ const App = () => {
   const [added, setAdded] = useState(false);
   const [lateAdded, setLateAdded] = useState(false);
   const [aboutClass, setAboutClass] = useState('about-section hide');
+  const [showGenerator, setShowGenerator] = useState(true);
 
   const qotdRef = useRef(null);
   useEffect(() => {
@@ -175,8 +176,7 @@ const App = () => {
             <div className='dayof-display'>Loading...</div>
           )}
         </div>
-        <QuestionGenerator />
-        {/* <div className='day-qotd-container'>
+        { showGenerator ? <QuestionGenerator setShowGenerator={setShowGenerator} /> : ( <div className='day-qotd-container'>
           {qotdEntered
             ?  <div
                   className='dayof-display qotd-display'
@@ -186,6 +186,7 @@ const App = () => {
 
             : (
                 <>
+                  <button onClick={() => setShowGenerator(true)}>Back</button>
                   <input
                     className='qotd'
                     name='qotd'
@@ -207,7 +208,8 @@ const App = () => {
                   </button>
                 </>
               )}
-        </div> */}
+        </div>)}
+
       </section>
       <main className='container'>
         <section className='inputBox'>
