@@ -3,6 +3,7 @@ import html2canvas from 'html2canvas';
 import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import getDate from './getDate';
+import QuestionGenerator from './QuestionGenerator';
 
 const App = () => {
   const [randomized, setRandomized] = useState([]);
@@ -44,6 +45,7 @@ const App = () => {
       return currentIndex === lastIndex ? 0 : currentIndex + 1;
     });
   };
+
 
   const handleInputChange = (e) => {
     const target = e.target;
@@ -160,6 +162,7 @@ const App = () => {
   return (
     <div className='wrapper'>
       <section className='date-section'>
+        <QuestionGenerator />
         <h1>Morning Stand UP</h1>
         <h2>
           {todayIs.day} {todayIs.month} {todayIs.date}, {todayIs.year}
@@ -167,6 +170,7 @@ const App = () => {
       </section>
       <section className='dayof-qotd'>
         <div className='day-qotd-container'>
+
           {!loading ? (
             <div className='dayof-display'>{dayOf.holidays[currentIndex]}</div>
           ) : (
