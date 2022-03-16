@@ -162,7 +162,6 @@ const App = () => {
   return (
     <div className='wrapper'>
       <section className='date-section'>
-        <QuestionGenerator />
         <h1>Morning Stand UP</h1>
         <h2>
           {todayIs.day} {todayIs.month} {todayIs.date}, {todayIs.year}
@@ -170,14 +169,14 @@ const App = () => {
       </section>
       <section className='dayof-qotd'>
         <div className='day-qotd-container'>
-
           {!loading ? (
             <div className='dayof-display'>{dayOf.holidays[currentIndex]}</div>
           ) : (
             <div className='dayof-display'>Loading...</div>
           )}
         </div>
-        <div className='day-qotd-container'>
+        <QuestionGenerator />
+        {/* <div className='day-qotd-container'>
           {qotdEntered
             ?  <div
                   className='dayof-display qotd-display'
@@ -208,7 +207,7 @@ const App = () => {
                   </button>
                 </>
               )}
-        </div>
+        </div> */}
       </section>
       <main className='container'>
         <section className='inputBox'>
