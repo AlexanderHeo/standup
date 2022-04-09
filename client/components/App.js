@@ -33,7 +33,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => changeIndex(), 7500);
+    const interval = setInterval(() => changeIndex(), 5000);
     return () => clearInterval(interval);
   }, [dayOf]);
 
@@ -59,19 +59,20 @@ const App = () => {
   const handleButton = (e) => {
     e.preventDefault();
     const name = e.target.name;
-
     if (name === 'add') {
-      if (display) {
-        const lateAddition = [...lateAdditions];
-        lateAddition.push(input);
-        setLateAdded(true);
-        setLateAdditions(lateAddition);
+      if (input.length > 0) {
+        if (display) {
+          const lateAddition = [...lateAdditions];
+          lateAddition.push(input);
+          setLateAdded(true);
+          setLateAdditions(lateAddition);
+        }
+        const membersCopy = [...members];
+        membersCopy.push(input);
+        setAdded(true);
+        setMembers(membersCopy);
+        setInput('');
       }
-      const membersCopy = [...members];
-      membersCopy.push(input);
-      setAdded(true);
-      setMembers(membersCopy);
-      setInput('');
     } else if (name === 'dayOf') {
       setDayOfEntered(true);
     } else if (name === 'qotd') {
@@ -118,7 +119,11 @@ const App = () => {
 
   const handleNameClick = (e) => {
     console.log(e.currentTarget.className);
-    e.currentTarget.classList.add('clicked');
+    if (e.currentTarget.classList.contains('clicked')) {
+      e.currentTarget.classList.remove('clicked')
+    } else {
+      e.currentTarget.classList.add('clicked');
+    }
   };
 
   const capture = () => {
@@ -180,7 +185,6 @@ const App = () => {
                 type='text'
                 placeholder='Question of the Day'
                 onChange={(e) => handleInputChange(e)}
-                onKeyPress={(e) => e.key === 'Enter' && handleButton(e)}
               />
               <button
                 type='submit'
