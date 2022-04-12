@@ -36,7 +36,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => changeIndex(), 7500);
+    const interval = setInterval(() => changeIndex(), 5000);
     return () => clearInterval(interval);
   }, [dayOf]);
 
@@ -64,7 +64,7 @@ const App = () => {
   const handleButton = (e) => {
     e.preventDefault();
     const name = e.target.name;
-
+    
     if (name === 'add' && input) {
       if (display) {
         const lateAddition = [...lateAdditions];
@@ -124,7 +124,6 @@ const App = () => {
   };
 
   const handleNameClick = (e) => {
-    console.log(e.currentTarget.className);
     e.currentTarget.classList.toggle('clicked');
   };
 
