@@ -175,7 +175,7 @@ const App = () => {
             <div className='dayof-display'>Loading...</div>
           )}
         </div>
-        { randomQotd ? <QuestionGenerator setRandomQotd={setRandomQotd} handleButton={handleButton} /> : ( <div className='day-qotd-container'>
+        <div className='day-qotd-container'>
           {qotdEntered
             ?  <div
                   className='dayof-display qotd-display'
@@ -195,21 +195,17 @@ const App = () => {
                   />
                   <button
                     type='submit'
-                    className='btn-qotd'
                     onClick={(e) => handleButton(e)}
                     name='qotd'>
                     Enter
                   </button>
-                  <button
-                    name='clear'
-                    className='btn-qotd'
+                  <button name='clear'
                     onClick={(e) => handleButton(e)}>
                     Clear
                   </button>
-                  <button onClick={() => setRandomQotd(true)}>Random question</button>
                 </>
               )}
-        </div>)}
+        </div>
       </section>
       <main className='container'>
         <section className='inputBox'>
