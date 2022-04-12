@@ -1,8 +1,9 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import getDate from './getDate';
+import QuestionGenerator from './QuestionGenerator';
 
 const App = () => {
   const [randomized, setRandomized] = useState([]);
@@ -18,7 +19,9 @@ const App = () => {
   const [added, setAdded] = useState(false);
   const [lateAdded, setLateAdded] = useState(false);
   const [aboutClass, setAboutClass] = useState('about-section hide');
+  const [randomQotd, setRandomQotd] = useState(false);
 
+  const qotdRef = useRef(null);
   useEffect(() => {
     axios('https://national-api-day.herokuapp.com/api/today')
       .then((response) => {
@@ -44,6 +47,7 @@ const App = () => {
     });
   };
 
+
   const handleInputChange = (e) => {
     const target = e.target;
     const name = target.name;
@@ -56,27 +60,29 @@ const App = () => {
       setQotd(value);
     }
   };
+
   const handleButton = (e) => {
     e.preventDefault();
     const name = e.target.name;
-    if (name === 'add') {
-      if (input.length > 0) {
-        if (display) {
-          const lateAddition = [...lateAdditions];
-          lateAddition.push(input);
-          setLateAdded(true);
-          setLateAdditions(lateAddition);
-        }
-        const membersCopy = [...members];
-        membersCopy.push(input);
-        setAdded(true);
-        setMembers(membersCopy);
-        setInput('');
+    
+    if (name === 'add' && input) {
+      if (display) {
+        const lateAddition = [...lateAdditions];
+        lateAddition.push(input);
+        setLateAdded(true);
+        setLateAdditions(lateAddition);
       }
+      const membersCopy = [...members];
+      membersCopy.push(input);
+      setAdded(true);
+      setMembers(membersCopy);
+      setInput('');
     } else if (name === 'dayOf') {
       setDayOfEntered(true);
-    } else if (name === 'qotd') {
+    } else if (name === 'qotd' && qotd) {
       setQotdEntered(true);
+    } else {
+      setQotd('');
     }
   };
 
@@ -118,12 +124,7 @@ const App = () => {
   };
 
   const handleNameClick = (e) => {
-    console.log(e.currentTarget.className);
-    if (e.currentTarget.classList.contains('clicked')) {
-      e.currentTarget.classList.remove('clicked')
-    } else {
-      e.currentTarget.classList.add('clicked');
-    }
+    e.currentTarget.classList.toggle('clicked');
   };
 
   const capture = () => {
@@ -174,28 +175,41 @@ const App = () => {
             <div className='dayof-display'>Loading...</div>
           )}
         </div>
-        <div className='day-qotd-container'>
-          {qotdEntered ? (
-            <div className='dayof-display'>{qotd}</div>
-          ) : (
-            <>
-              <input
-                className='qotd'
-                name='qotd'
-                type='text'
-                placeholder='Question of the Day'
-                onChange={(e) => handleInputChange(e)}
-              />
-              <button
-                type='submit'
-                onClick={(e) => handleButton(e)}
-                name='qotd'
-              >
-                Enter
-              </button>
-            </>
-          )}
-        </div>
+        { randomQotd ? <QuestionGenerator setRandomQotd={setRandomQotd} handleButton={handleButton} /> : ( <div className='day-qotd-container'>
+          {qotdEntered
+            ?  <div
+                  className='dayof-display qotd-display'
+                  onDoubleClick={(e) => {
+                    setQotdEntered(false);
+                  }}>{qotd}</div>
+            : (
+                <>
+                  <input
+                    className='qotd'
+                    name='qotd'
+                    type='text'
+                    value={qotd}
+                    placeholder='Question of the Day'
+                    onChange={(e) => handleInputChange(e)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleButton(e)}
+                  />
+                  <button
+                    type='submit'
+                    className='btn-qotd'
+                    onClick={(e) => handleButton(e)}
+                    name='qotd'>
+                    Enter
+                  </button>
+                  <button
+                    name='clear'
+                    className='btn-qotd'
+                    onClick={(e) => handleButton(e)}>
+                    Clear
+                  </button>
+                  <button onClick={() => setRandomQotd(true)}>Random question</button>
+                </>
+              )}
+        </div>)}
       </section>
       <main className='container'>
         <section className='inputBox'>
