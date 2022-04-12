@@ -37,7 +37,8 @@ h2 {
 .day-qotd-container {
   display: flex;
   justify-content: center;
-  width: 600px;
+  width: 100%;
+  margin-right: 0;
 }
 .day-qotd-container input {
   margin-right: 1rem;
@@ -47,7 +48,7 @@ h2 {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 45.6px;
+  height: 45.6px;
   font-size: 1.6rem;
 }
 
@@ -187,3 +188,4 @@ button,
 button:active {
   transform: translateY(0.25rem);
 }
+
